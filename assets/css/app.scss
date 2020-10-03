@@ -18,8 +18,15 @@
     font-family: 'Montserrat Alternates', sans-serif;
 }
 
+.text-ellipsis {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 body {
-    background: #333;
+    background: #212121;
     color: #fff;
 }
 
@@ -30,7 +37,7 @@ body {
     align-items: center;
     min-height: 100%;
     .box {
-        max-width: 500px;
+        max-width: 600px;
         width: 100%;
         form {
             text-align: center;
@@ -42,10 +49,53 @@ body {
     }
     .ui.label {
         padding-top: 0.9em !important;
+        background: #3e978b;
+        color: #fff;
+    }
+    input:not(:last-child) {
+        margin-right: 10px;
     }
     button {
         margin-top: 30px;
         font-family: 'Comfortaa', sans-serif;
         font-weight: 400;
+        border-radius: 100px;
+        i {
+            margin-left: 10px;
+        }
+        &:before {
+            border-color: rgba(0, 0, 0, 0.5) !important;
+        }
+        &:after {
+            border-color: #d9e778 transparent transparent !important;
+        }
+    }
+    .box.result {
+        @extend .box;
+        display: none;
+        background: #424242;
+        margin-top: 30px;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.3);
+        h5 {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Comfortaa', sans-serif;
+            a {
+                font-family: 'Comfortaa', sans-serif;
+                margin: 0 0 0 5px;
+            }
+        }
+        button {
+            padding: 7px 15px;
+            font-size: 14px;
+            margin: 0 0 0 5px;
+            float: right;
+            white-space: nowrap;
+        }
     }
 }
