@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= process.env.APP_NAME %></title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+
+<body>
+    <div class="ui container" id="app">
+
+        <div class="box">
+            <form action="<%= helpers.api('/v1/shorten') %>" method="post" name="form-shorten-url" @submit.prevent="shortenUrl">
+                <div class="ui labeled fluid input">
+                    <div class="ui label">http://</div>
+                    <input type="text" placeholder="www.example.com" v-model="url" @keyup="validateUrl(event)" @paste="validateUrl(event)" @drop="validateUrl(event)">
+                </div>
+
+                <button type="submit" class="ui inverted teal big button" v-bind:class="isSubmittable ? '' : 'disabled'">Shorten URL</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+</body>
+
+</html>
