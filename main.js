@@ -1,9 +1,11 @@
 const express = require('express');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const ejs = require('ejs');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 // Import local files
 const webRoutes = require('./routes/web');
@@ -25,12 +27,15 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 app.use(cors());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json({ type: 'application/*+json' }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-// Routes
-app.use(webRoutes);
-app.use('/api/v1/', apiRoutes);
+// Mongoose connection
+const mongooseOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}
+mongoose.connect(helpers.env('DB_URL'), mongooseOptions);
 
 // Set assets directory
 app.use('/assets', express.static(path.join(__dirname, './assets/')));
@@ -43,10 +48,15 @@ app.engine('ejs', ejs.renderFile);
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
+// Routes
+app.use(webRoutes);
+app.use('/api/v1/', apiRoutes);
+
 // Error Routes
-app.use(function(req, res, next) {
+app.use(function(req, res) {
 	res.status(404).render('404');
 });
+
 
 // Listen to app port
 app.listen(helpers.env('APP_PORT') || 8080);

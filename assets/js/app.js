@@ -3,7 +3,7 @@ const app = new Vue({
     data: {
         url: '',
         slug: '',
-        isSubmittable: !false,
+        isSubmittable: false,
         isSubmitting: false,
         data: null,
         isUrlCopied: false,
@@ -45,12 +45,40 @@ const app = new Vue({
             this.isSubmittable = true;
             return true;
         },
-        shortenUrl: async function() {
-            if(this.validateUrl()) {
-                alert('All Okay');
-            } else {
-                alert('Something is wrong');
+        shortenUrl: function() {
+            if(!this.validateUrl()) {
+                notifier.show('Oops!', 'Please verify the URL', 'danger', '', 7000);
+                return false;
             }
+            if(this.slug !== '' && !this.validateSlug()) {
+                notifier.show('Oops!', 'Please verify the slug', 'danger', '', 7000);
+                return false;
+            }
+
+            const $form = document.getElementById('form-shorten-url');
+            const formUrl = $form.getAttribute('action');
+            const data = {
+                url: this.url.trim(),
+                slug: this.slug.trim()
+            }
+
+            this.isSubmitting = true;
+            axios.post(formUrl, data)
+            .then(response => {
+                response = response.data;
+
+                if(!response.success) {
+                    notifier.show('Oops!', response.message, 'danger', '', 7000);
+                    return false;
+                }
+
+                this.data = response.data;
+                notifier.show('Success', response.message, 'success', '', 7000);
+                this.isSubmitting = false;
+            }).catch(err => {
+                notifier.show('Oops!', err.response.data.message, 'danger', '', 7000);
+                this.isSubmitting = false;
+            });
         },
         copyUrl: function(url, type) {
             if(type === 'url') {

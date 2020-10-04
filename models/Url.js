@@ -13,11 +13,7 @@ const UrlSchema = mongoose.Schema({
     shortened_url: {
         type: String,
         required: true,
-    },
-    created_at: {
-        type: Date,
-        default: Date.now,
     }
 });
 
-module.exports = mongoose.model('Url', UrlSchema);
+module.exports = mongoose.model('urls', UrlSchema);
