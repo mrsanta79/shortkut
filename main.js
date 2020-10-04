@@ -6,6 +6,9 @@ const path = require('path');
 const ejs = require('ejs');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const fs = require('fs');
+const https = require('https');
+const redirectSSL = require('redirect-ssl');
 
 // Import local files
 const webRoutes = require('./routes/web');
@@ -48,6 +51,14 @@ app.engine('ejs', ejs.renderFile);
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
+// Force HTTPS
+if(fs.existsSync(helpers.env('SSL_PRIVATE_KEY')) && fs.existsSync(helpers.env('SSL_FULLCHAIN'))) {
+    routes.use(redirectSSL.create({
+        enabled: process.env.APP_ENV === 'production',
+        redirectPort: process.env.APP_PORT_SECURED
+    }));
+}
+
 // Routes
 app.use(webRoutes);
 app.use('/api/v1/', apiRoutes);
@@ -57,6 +68,16 @@ app.use(function(req, res) {
 	res.status(404).render('404');
 });
 
-
 // Listen to app port
 app.listen(helpers.env('APP_PORT') || 8080);
+
+// Activate SSL if found on production
+if(process.env.APP_ENV === 'production' && fs.existsSync(helpers.env('SSL_PRIVATE_KEY')) && fs.existsSync(helpers.env('SSL_FULLCHAIN'))) {
+    
+    // SSL Config
+    const sslConfig = {
+        key: fs.readFileSync(helpers.env('SSL_PRIVATE_KEY')),
+        cert: fs.readFileSync(helpers.env('SSL_FULLCHAIN'))
+    }
+    https.createServer(sslConfig, app).listen(helpers.env('APP_PORT_SECURED') || 8080);
+}

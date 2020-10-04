@@ -19,6 +19,8 @@
         "helmet": "^4.1.1",
         "mongodb": "^3.6.2",
         "mongoose": "^5.10.7",
+        "redirect-ssl": "^2.0.0",
+        "tslib": "^2.0.1",
         "uniqid": "^5.2.0"
     }
 }
