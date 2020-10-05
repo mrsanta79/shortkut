@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= process.env.APP_NAME %></title>
+    <title><%= helpers.env('APP_NAME') %> - Free, Simple & Easy-to-use URL Shortener</title>
     
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/libs/notifier/css/notifier.css">
     <link rel="stylesheet" href="/assets/css/app.css">
 </head>
 
@@ -16,23 +17,65 @@
     <div class="ui container" id="app">
 
         <div class="box">
-            <form action="<%= helpers.api('/v1/shorten') %>" method="post" name="form-shorten-url" @submit.prevent="shortenUrl">
+            <form action="<%= helpers.api('/v1/new') %>" method="post" name="form-shorten-url" id="form-shorten-url" @submit.prevent="shortenUrl">
                 <div class="ui labeled fluid input">
-                    <div class="ui label">http://</div>
-                    <input type="text" placeholder="www.example.com" v-model="url" @keyup="validateUrl(event)" @paste="validateUrl(event)" @drop="validateUrl(event)">
+                    <label for="" class="ui label">URL *</label>
+                    <input type="text" placeholder="https://www.example.com/" v-model="url" @keypress="preventSpaceInput(event)" @keyup="validateUrl" @paste="validateUrl" @drop="validateUrl">
+                </div>
+                <div class="ui labeled fluid input">
+                    <label for="" class="ui label">Slug</label>
+                    <input type="text" placeholder="mysite" v-model="slug" @keypress="preventSpaceInput(event)" @keyup="validateSlug" @paste="validateSlug" @drop="validateSlug">
                 </div>
 
-                <button type="submit" class="ui inverted teal big button" v-bind:class="isSubmittable ? '' : 'disabled'">Shorten URL</button>
+                <button type="submit" class="ui inverted olive big button" v-bind:class="[isSubmittable ? '' : 'disabled', isSubmitting ? 'loading disabled' : '' ]">
+                    Shorten URL
+                    <i class="far fa-hand-scissors"></i>
+                </button>
             </form>
+        </div>
+        
+        <div class="box result" v-if="data !== null" v-bind:style="{ display: data !== null ? 'block' : 'none' }">
+            <h5>
+                <div class="text-ellipsis">                    
+                    <%# URL: %>
+                    <a :href="data && data.url" class="ui orange header" target="_blank">
+                        {{ data && data.url }}
+                    </a>
+                </div>
+                <button type="submit" class="ui inverted olive big button" @click="copyUrl(data && data.url, 'url')" v-bind:class="isUrlCopied ? 'disabled' : ''">
+                    {{ isUrlCopied ? 'Copied!' : 'Copy' }}
+                </button>
+            </h5>
+            <h5>
+                <div class="text-ellipsis">
+                    <%# Shortened URL: %>
+                    <a :href="data && data.shortened_url" class="ui orange header" target="_blank">
+                        {{ data && data.shortened_url }}
+                    </a>
+                </div>
+                <button type="submit" class="ui inverted olive big button" @click="copyUrl(data && data.shortened_url, 'shortened_url')" v-bind:class="isShortenedUrlCopied ? 'disabled' : ''">
+                     {{ isShortenedUrlCopied ? 'Copied!' : 'Copy' }}
+                </button>
+            </h5>
         </div>
 
     </div>
+
+    <section id="footer">
+        <div class="ui container fluid">
+            <h4>
+                Handcrafted with <i class="fas fa-heart"></i> by
+                <a href="https://meetsantanu.in/" target="_blank">Santanu Biswas</a>
+            </h4>
+        </div>
+    </section>
 
     <!-- JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="/assets/libs/notifier/js/notifier.js"></script>
     <script src="/assets/js/app.js"></script>
 </body>
 
