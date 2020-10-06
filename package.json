@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon main.js",
-        "start": "node main.js"
+        "start": "pm2 start main.js"
     },
     "keywords": [],
     "author": "Santanu Biswas (dev.sbiswas7991@gmail.com)",

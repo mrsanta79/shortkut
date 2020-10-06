@@ -53,7 +53,7 @@ app.set('view engine', 'ejs');
 
 // Force HTTPS
 if(fs.existsSync(helpers.env('SSL_PRIVATE_KEY')) && fs.existsSync(helpers.env('SSL_FULLCHAIN'))) {
-    routes.use(redirectSSL.create({
+    app.use(redirectSSL.create({
         enabled: process.env.APP_ENV === 'production',
         redirectPort: process.env.APP_PORT_SECURED
     }));
@@ -72,7 +72,7 @@ app.use(function(req, res) {
 app.listen(helpers.env('APP_PORT') || 8080);
 
 // Activate SSL if found on production
-if(process.env.APP_ENV === 'production' && fs.existsSync(helpers.env('SSL_PRIVATE_KEY')) && fs.existsSync(helpers.env('SSL_FULLCHAIN'))) {
+if(process.env.APP_ENV === 'production' && fs.existsSync(helpers.env('SSL_PRIVATE_KEY'))) {
     
     // SSL Config
     const sslConfig = {
