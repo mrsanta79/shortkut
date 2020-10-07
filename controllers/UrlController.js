@@ -26,6 +26,12 @@ module.exports = {
             }
         }
 
+        // Check and return URL if already present
+        const checkURL = await UrlModel.findOne({ url: data.url.trim() });
+        if(checkURL !== null) {
+            return checkURL;
+        }
+
         // Create slug
         const slug = (data.slug && data.slug.trim()) || uniqid.process();
         const url = (data.url.trim().includes('http://') || data.url.trim().includes('https://')) ? data.url.trim() : 'http://' + data.url.trim();
