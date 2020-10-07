@@ -35,18 +35,22 @@ body {
     direction: ltr;
 }
 
+.notifier-container>.notifier {
+    background: #383838;
+}
+
 .notifier-container .notifier {
     border-left-width: 10px;
 }
 
 .notifier-container .notifier-title {
     font-weight: 600;
-    color: #777;
+    color: #fff;
 }
 
 .notifier-container .notifier-body {
     font-weight: 400;
-    color: #000;
+    color: #fff;
 }
 
 .ui.container {
