@@ -1,2 +1,2 @@
-# url-shortener
-A simple straight-forward url shortener in NodeJS / MongoDB
+# ShortKut
+A simple straight-forward URL Shortener in NodeJS / MongoDB
