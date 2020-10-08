@@ -38,8 +38,8 @@ module.exports = {
 
         // Create request object
         const request = {
-            url: url,
-            slug: slug,
+            url: url.toLowerCase(),
+            slug: slug.toLowerCase(),
             shortened_url: helpers.url(`/u/${slug}`),
         }
 
