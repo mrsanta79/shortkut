@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png">
     <title><%= helpers.env('APP_NAME') %> - Free, Simple & Easy-to-use URL Shortener</title>
     
     <!-- CSS -->
@@ -15,7 +16,9 @@
 
 <body>
     <div class="ui container" id="app">
-
+        <a href="<%= helpers.url('/') %>" class="logo">
+            Short<span>Kut</span>
+        </a>
         <div class="box">
             <form action="<%= helpers.api('/v1/new') %>" method="post" name="form-shorten-url" id="form-shorten-url" @submit.prevent="shortenUrl">
                 <div class="ui labeled fluid input">

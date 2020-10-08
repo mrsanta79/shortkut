@@ -53,6 +53,25 @@ body {
     color: #fff;
 }
 
+.logo {
+    font-size: 42px;
+    color: #d9e778;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-family: 'Comfortaa', sans-serif;
+    text-transform: none;
+    text-decoration: none;
+    &:hover,
+    &:focus,
+    &:active {
+        color: #d9e778;
+    }
+    span {
+        font-weight: bold;
+        color: #fff;
+    }
+}
+
 .ui.container {
     display: flex;
     flex-direction: column;

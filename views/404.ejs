@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png">
     <title><%= helpers.env('APP_NAME') %> - Page Not Found</title>
     
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/app.css">
     <style type="text/css">
         * {
@@ -25,6 +27,13 @@
             font-size: 2em;
             margin-bottom: 30px;
         }
+        .ui.button {
+            border-radius: 100px;
+            margin-top: 30px;
+        }
+        .ui.button .fas {
+            margin-right: 10px;
+        }
         .content {
             overflow: hidden;
         }
@@ -39,8 +48,21 @@
             <h1>404</h1>
             <h3>Page Not Found!</h3>
             <p>Oops! Looks like you've entered or followed a broken URL.</p>
+            <a href="<%= helpers.url('/') %>" class="ui inverted olive big button">
+                <i class="fas fa-chevron-left"></i>
+                Go Home
+            </a>
         </div>
     </div>
+
+    <section id="footer">
+        <div class="ui container fluid">
+            <h4>
+                Handcrafted with <i class="fas fa-heart"></i> by
+                <a href="https://meetsantanu.in/" target="_blank">Santanu Biswas</a>
+            </h4>
+        </div>
+    </section>
 
     <!-- JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
